@@ -1,14 +1,9 @@
-文件说明：
+This practice focuses on a simple retrieval chatbot demo.
 
-本次练习首先bert计算输入问题与库中问题的相似度，然后返回与输入问题最相近的库中问题的答案。
+In the beginning of practice, we put QA pair into BERT to train text similarity model. After loading the short dialogue into the system, user will be asked to input A Question from keyboard. The system will only return one in similar to the Question, waiting for confirmation from user. If user answer 'Yes', the right answer will be returned and process terminates; otherwise, a new similar question will be returned. If user refuses 3 returned questions contiinuously, the system will suggest user to call service support for help.
 
-测试行
+Go run read_qa.py to check the experiment results.
 
-再次测试行
+I guess this practice is quite esay actually. More experiments will put into Dialogue Management.
 
-第四次测试行
-
-master分支测试
-
-分支管理测试
-
+If you get questions or interest in it, you are more than welcome to contact and join me. Thanks very much.
