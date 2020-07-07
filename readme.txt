@@ -4,6 +4,6 @@ In the beginning of practice, we put QA pair into BERT to train text similarity 
 
 Go run read_qa.py to check the experiment results.
 
-I guess this practice is quite esay actually. More experiments will put into Dialogue Management.
+I guess this practice is quite esay actually. More experiments will put into Dialogue Management, especially in RASA.
 
 If you get questions or interest in it, you are more than welcome to contact and join me. Thanks very much.
