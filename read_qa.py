@@ -11,20 +11,25 @@
 
 @Desc    :   本代码的目的是将问答数据进行导入
 
+@Version :      7/14
+                运行代码后，首先加载模型，然后等待用户端输入问题。一轮会话结束后，等待用户输入下一个问题。
 '''
 import os
 import pathlib
 from run_similarity import BertSim
 import tensorflow as tf
+import time
 
 
+# 指定使用 GPU 跑代码，50个匹配任务1秒内可以完成
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # 指定 GPU 为0, 1
 sim = BertSim()
 sim.set_mode(tf.estimator.ModeKeys.PREDICT)
 
 file_path = os.path.abspath(__file__)
 # 路径为 /home/lixh/works/text/chatbot_project/Chatbot_Retrieval/Chatbot_Retrieval_model/Bert_sim
 basepath = str(pathlib.Path(file_path).parent)
-print(basepath)
+# print(basepath)
 
 class similarity():
     def __init__(self, path):
@@ -38,6 +43,9 @@ class similarity():
         print('\n' + '请输入您的问题')
         q = input('输入问题：')
 
+        print('匹配开始时间：')
+        print(time.localtime())
+
         queue = []
         # 在这一步的时候就要开始计算输入问题和存在问题的相似度了
         with open(self.path, 'r', encoding='utf-8') as file:
@@ -46,6 +54,7 @@ class similarity():
                 qa_pair = (qa_pair[0].strip(' '), qa_pair[1].strip('\n').strip(' '))  # (问题，答案)元组
                 # 此处计算文本相似度
                 pre_sim = sim.predict(qa_pair[0], q)[0][1]
+
                 if len(queue) < 3:
                     queue.append((qa_pair, pre_sim))
                 else:
@@ -57,6 +66,10 @@ class similarity():
                     queue = sorted(queue, key=lambda x: x[1], reverse=True)
 
         flag_done = False  # 用来标记是否匹配到了正确答案
+
+        print('匹配结束时间：')
+        print(time.localtime())
+
         for i in range(len(queue)):
             print('您是否想问：' + queue[i][0][0])
             respose = input('您的回答：（请回答是/否）')
@@ -69,7 +82,8 @@ class similarity():
 
 
 if __name__ == '__main__':
-    data_dir = os.path.join(basepath, 'data/qa_corpus.txt')
+    data_dir = os.path.join(basepath, 'data/qa_corpus1.txt')
     # q = '公司认证需要哪些材料'
-    model = similarity(data_dir)
-    model.mainProcess()
+    while True:
+        model = similarity(data_dir)
+        model.mainProcess()
